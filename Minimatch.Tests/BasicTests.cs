@@ -9,26 +9,30 @@ namespace Minimatch.Tests
     public class BasicTests
     {
 
-             static int nextIndex;
+        static int nextIndex;
         static void TestCase(string pattern, IList<string> expected, Options options = null, IEnumerable<string> input = null)
         {
             input = input ?? files;
 
             CollectionAssert.AreEqual(expected.ToList(), Minimatcher.Filter(input, pattern, options).ToList());
-            Assert.AreEqual(expected[nextIndex++], Minimatcher.MakeRegex(pattern, options).ToString());
+            //Assert.AreEqual(expected[nextIndex++], Minimatcher.MakeRegex(pattern, options).ToString());
         }
 
-        static void AddFiles(params string[] entries){files.AddRange(entries);}
-        static void ReplaceFiles(params string[] entries){files.Clear();files.AddRange(entries);}
+        static void AddFiles(params string[] entries) { files.AddRange(entries); }
+        static void ReplaceFiles(params string[] entries) { files.Clear(); files.AddRange(entries); }
 
-   static readonly List<string> files = new List<string>{ 
-              "a", "b", "c", "d", "abc"
-            , "abd", "abe", "bb", "bcd"
-            , "ca", "cb", "dd", "de"
-            , "bdir/", "bdir/cfile"
-        };
-        static readonly IList<string> next = files.Concat(new[] { "a-b", "aXb", ".x", ".y" }).ToList();
+        static readonly List<string> files = new List<string>();
 
+        [TestInitialize]
+        public void DefaultFiles()
+        {
+            ReplaceFiles(
+                  "a", "b", "c", "d", "abc"
+                , "abd", "abe", "bb", "bcd"
+                , "ca", "cb", "dd", "de"
+                , "bdir/", "bdir/cfile"
+            );
+        }
 
         [TestMethod]
         public void BashCookBook()
@@ -91,6 +95,8 @@ TestCase("", new [] { "" }, new Options { /*null = true*/ }, new [] { "" });
         [TestMethod]
         public void AppleBash()
         {
+            AddFiles("a-b", "aXb", ".x", ".y", "a*b/", "a*b/ooo");
+
   //http://www.opensource.apple.com/source/bash/bash-23/bash/tests/glob-test"
                                         AddFiles("man/", "man/man1/", "man/man1/bash.1") ;
 TestCase("*/man*/bash.*", new [] { "man/man1/bash.1" });
@@ -141,6 +147,9 @@ TestCase("[abc", new string[0], new Options { /*null = true*/ }, new [] { "[" })
         [TestMethod]
         public void NoCase()
         {
+            AddFiles("a-b", "aXb", ".x", ".y", "a*b/", "a*b/ooo", "man/", "man/man1/", "man/man1/bash.1");
+
+
 TestCase("XYZ", new [] { "xYz" }, new Options { NoCase = true, /*null = true*/ }
     , new [] { "xYz", "ABC", "IjK" });
 TestCase("ab*", new [] { "ABC" }, new Options { NoCase = true, /*null = true*/ }
@@ -152,6 +161,8 @@ TestCase("[ia]?[ck]", new [] { "ABC", "IjK" }, new Options { NoCase = true, /*nu
         [TestMethod]
         public void OneStar_TwoStar()
         {
+            AddFiles("a-b", "aXb", ".x", ".y", "a*b/", "a*b/ooo", "man/", "man/man1/", "man/man1/bash.1");
+
   // [ pattern, new [] { matches }, MM opts, files, TAP opts]
 TestCase("{/*,*}", new string[0], new Options { /*null = true*/ }, new [] { "/asdf/asdf/asdf" });
 TestCase("{/?,*}", new [] { "/a", "bb" }, new Options { /*null = true*/ }
@@ -160,6 +171,8 @@ TestCase("{/?,*}", new [] { "/a", "bb" }, new Options { /*null = true*/ }
         [TestMethod]
         public void DotMatching()
         {
+            AddFiles("a-b", "aXb", ".x", ".y", "a*b/", "a*b/ooo", "man/", "man/man1/", "man/man1/bash.1");
+
   //"Dots should not match unless requested"
 TestCase("**", new [] { "a/b" }, new Options {}, new [] { "a/b", "a/.d", ".a/.d" });
 
@@ -182,6 +195,8 @@ TestCase("**", new [] { "a/b","a/.d",".a/.d" }, new Options { Dot= true }
         [TestMethod]
         public void ParenSlashes()
         {
+            //AddFiles("a-b", "aXb", ".x", ".y", "a*b/", "a*b/ooo", "man/", "man/man1/", "man/man1/bash.1");
+
   //"paren sets cannot contain slashes"
 TestCase("*(a/b)", new [] { "*(a/b)" }, new Options {NoNull= true}, new [] { "a/b" });
 
@@ -236,13 +251,12 @@ TestCase( "*(a|{b|c,c})", new [] { "x(a|b|c)", "x(a|c)", "(a|b|c)", "(a|c)" }
 TestCase("a?b", new [] { "x/y/acb", "acb/" }, new Options {MatchBase= true}
     , new [] { "x/y/acb", "acb/", "acb/d/e", "x/y/acb/d" } );
 TestCase("#*", new [] { "#a", "#b" }, new Options {NoComment= true}, new [] { "#a", "#b", "c#d" });
-
-
-  // begin channelling Boole and deMorgan...
          }
         [TestMethod]
         public void NegationTests()
         {
+  // begin channelling Boole and deMorgan...
+
       ReplaceFiles("d", "e", "!ab", "!abc", "a!b", "\\!a");
   // anything that is NOT a* matches.
 TestCase("!a*", new [] { "\\!a", "d", "e", "!ab", "!abc" });
