@@ -33,6 +33,9 @@ namespace Minimatch
         public bool MatchBase { get; set; }
 
         internal RegexOptions RegexOptions { get { return NoCase ? RegexOptions.IgnoreCase : RegexOptions.None; } }
+
+        ///<summary>If true, backslahes in patterns and paths will be treated as forward slashes.  This disables escape characters.</summary>
+        public bool AllowWindowsPaths { get; set; }
     }
 
 
@@ -89,7 +92,9 @@ namespace Minimatch
         {
             if (pattern == null) throw new ArgumentNullException("pattern");
             this.options = options ?? new Options();
-            this.pattern = pattern.Trim().Replace('\\', '/');
+            this.pattern = pattern.Trim();
+            if (this.options.AllowWindowsPaths)
+                this.pattern = this.pattern.Replace('\\', '/');
 
             this.Make();
         }
@@ -783,7 +788,9 @@ namespace Minimatch
 
             // windows: need to use /, not \
             // On other platforms, \ is a valid (albeit bad) filename char.
-            input = input.Replace("\\", "/");
+
+            if (options.AllowWindowsPaths)
+                input = input.Replace("\\", "/");
 
             // treat the test path as a set of pathparts.
             var f = slashSplit.Split(input);
