@@ -68,7 +68,7 @@ namespace Minimatch
         {
             var mm = new Minimatcher(pattern, options);
             list = list.Where(mm.Match);
-            if (options.NoNull)
+            if (options != null && options.NoNull)
                 list = list.DefaultIfEmpty(pattern);
             return list;
         }
@@ -895,7 +895,7 @@ namespace Minimatch
                         for (; fi < file.Count; fi++)
                         {
                             if (file[fi] == "." || file[fi] == ".." ||
-                                (!options.Dot && file[fi][0] == '.')) return false;
+                                (!options.Dot && !string.IsNullOrEmpty(file[fi]) && file[fi][0] == '.')) return false;
                         }
                         return true;
                     }
@@ -996,7 +996,7 @@ namespace Minimatch
 
 
         // replace stuff like \* with *
-        static readonly Regex globUnescaper = new Regex(@"\(.)");
+        static readonly Regex globUnescaper = new Regex(@"\\(.)");
         static string GlobUnescape(string s)
         {
             return globUnescaper.Replace(s, "$1");
