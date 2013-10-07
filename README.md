@@ -4,7 +4,7 @@ A minimal matching utility.
 This is a port of Node.js' [minimatch](https://github.com/isaacs/minimatch).
 
 ##Usage
-First, install from NuGet:
+First, install [from NuGet](https://www.nuget.org/packages/Minimatch/):
 
 ```
 PM> Install-Package Minimatch
