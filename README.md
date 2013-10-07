@@ -4,6 +4,12 @@ A minimal matching utility.
 This is a port of Node.js' [minimatch](https://github.com/isaacs/minimatch).
 
 ##Usage
+First, install from NuGet:
+
+```
+PM> Install-Package Minimatch
+```
+
 Just parse the pattern into a `Minimatch` instance, then call the `IsMatch` function to check whether an input matches it.  You can also use the `Filter()` convenience method to filter a list of paths and find those that match the pattern.
 
 ```csharp
@@ -86,3 +92,5 @@ Quoting the original documentation:
  > **first** into the set of `+(a|b)` and `+(a|c)`, and those patterns are
  > checked for validity.  Since those two are valid, matching proceeds.
 
+#License
+[MIT](http://opensource.org/licenses/MIT)

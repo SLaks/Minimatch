@@ -8,9 +8,9 @@ using System;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Minimatch")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A C# glob matcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("SLaks")]
 [assembly: AssemblyProduct("Minimatch")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
