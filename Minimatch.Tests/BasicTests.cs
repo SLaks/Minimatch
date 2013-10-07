@@ -21,7 +21,7 @@ namespace Minimatch.Tests
                 "Failure from `" + pattern + "`"
             );
 
-            var regex = Minimatcher.MakeRegex(pattern, options);
+            var regex = Minimatcher.CreateRegex(pattern, options);
             actualRegexes.Add(Tuple.Create(pattern, regex == null ? "false" : "/" + regex.ToString() + "/" + (regex.Options == RegexOptions.IgnoreCase ? "i" : "")));
         }
 

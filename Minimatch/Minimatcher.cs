@@ -39,8 +39,10 @@ namespace Minimatch
     }
 
 
+    ///<summary>Parses a single glob pattern and tests strings against it.</summary>
     public class Minimatcher
     {
+        ///<summary>Creates a filter function that tests input against a pattern.</summary>
         public static Func<string, bool> CreateFilter(string pattern, Options options = null)
         {
             if (pattern == null) throw new ArgumentNullException("pattern");
@@ -48,8 +50,10 @@ namespace Minimatch
             if (String.IsNullOrWhiteSpace(pattern)) return String.IsNullOrEmpty;
 
             var m = new Minimatcher(pattern, options);
-            return m.Match;
+            return m.IsMatch;
         }
+        ///<summary>Tests a single input against a pattern.</summary>
+        ///<remarks>This function reparses this input on each invocation.  For performance, avoid this function and reuse a Minimatcher instance instead.</remarks>
         public static bool Check(string input, string pattern, Options options = null)
         {
             if (input == null) throw new ArgumentNullException("input");
@@ -64,18 +68,22 @@ namespace Minimatch
             // "" only matches ""
             if (String.IsNullOrWhiteSpace(pattern)) return input == "";
 
-            return new Minimatcher(pattern, options).Match(input);
+            return new Minimatcher(pattern, options).IsMatch(input);
         }
 
+        ///<summary>Filters a list of inputs against a single pattern.</summary>
+        ///<remarks>This function reparses this input on each invocation.  For performance, avoid this function and reuse a Minimatcher instance instead.</remarks>
         public static IEnumerable<string> Filter(IEnumerable<string> list, string pattern, Options options)
         {
             var mm = new Minimatcher(pattern, options);
-            list = list.Where(mm.Match);
+            list = list.Where(mm.IsMatch);
             if (options != null && options.NoNull)
                 list = list.DefaultIfEmpty(pattern);
             return list;
         }
-        public static Regex MakeRegex(string pattern, Options options)
+
+        ///<summary>Compiles a pattern into a single regular expression.</summary>
+        public static Regex CreateRegex(string pattern, Options options)
         {
             return new Minimatcher(pattern, options).MakeRegex();
         }
@@ -88,6 +96,7 @@ namespace Minimatch
         bool comment = false;
         bool empty = false;
 
+        ///<summary>Creates a new Minimatcher instance, parsing the pattern into a regex.</summary>
         public Minimatcher(string pattern, Options options = null)
         {
             if (pattern == null) throw new ArgumentNullException("pattern");
@@ -98,7 +107,19 @@ namespace Minimatch
 
             this.Make();
         }
-        public bool Match(string input) { return Match(input, false); }
+
+        ///<summary>Checks whether a given string matches this pattern.</summary>
+        public bool IsMatch(string input) { return Match(input, false); }
+
+        ///<summary>Filters a list of inputs against this pattern.</summary>
+        public IEnumerable<string> Filter(IEnumerable<string> list)
+        {
+            list = list.Where(IsMatch);
+            if (options.NoNull)
+                list = list.DefaultIfEmpty(pattern);
+            return list;
+        }
+
 
         Regex regexp;
         bool isError;
@@ -189,7 +210,7 @@ namespace Minimatch
         // Invalid sets are not expanded.
         // a{2..}b -> a{2..}b
         // a{b}c -> a{b}c
-        public static IEnumerable<string> BraceExpand(string pattern, Options options)
+        static IEnumerable<string> BraceExpand(string pattern, Options options)
         {
             if (options.NoBrace || !hasBraces.IsMatch(pattern))
             {
