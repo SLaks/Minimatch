@@ -131,7 +131,7 @@ namespace Minimatch
         void Make()
         {
             // empty patterns and comments match nothing.
-            if (!options.NoComment && pattern[0] == '#')
+            if (!options.NoComment && !string.IsNullOrEmpty(pattern) && pattern[0] == '#')
             {
                 this.comment = true;
                 return;
@@ -748,7 +748,7 @@ namespace Minimatch
             // It's better to use .match().  This function shouldn't
             // be used, really, but it's pretty convenient sometimes,
             // when you just want to work with a regex.
-            if (!set.Any())
+            if (comment || empty || !set.Any())
             {
                 this.isError = true;
                 return null;

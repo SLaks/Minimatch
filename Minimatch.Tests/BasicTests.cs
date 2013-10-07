@@ -16,8 +16,8 @@ namespace Minimatch.Tests
             input = input ?? files;
 
             Assert.AreEqual(
-                String.Join(Environment.NewLine, expected),
-                String.Join(Environment.NewLine, Minimatcher.Filter(input, pattern, options)),
+                String.Join(Environment.NewLine, expected.OrderBy(s => s)),
+                String.Join(Environment.NewLine, Minimatcher.Filter(input, pattern, options).OrderBy(s => s)),
                 "Failure from `" + pattern + "`"
             );
 
@@ -93,10 +93,10 @@ namespace Minimatch.Tests
         [TestMethod]
         public void LegendaryLarryCrashesBashes()
         {
-            TestCase(@"/^root:/{s/^[^:]*:[^:]*:\([^:]*\).*$/\\1/"
-                , new[] { @"/^root:/{s/^[^: }*:[^:]*:\([^:]*\).*$/\\1/" }, new Options { NoNull = true });
-            TestCase(@"/^root:/{s/^[^:]*:[^:]*:\([^:]*\).*$/\1/"
-                , new[] { @"/^root:/{s/^[^: }*:[^:]*:\([^:]*\).*$/\1/" }, new Options { NoNull = true });
+            TestCase("/^root:/{s/^[^:]*:[^:]*:([^:]*).*$/\\1/"
+                , new[] { "/^root:/{s/^[^:]*:[^:]*:([^:]*).*$/\\1/" }, new Options { NoNull = true });
+            TestCase("/^root:/{s/^[^:]*:[^:]*:([^:]*).*$/\u0001/"
+                , new[] { "/^root:/{s/^[^:]*:[^:]*:([^:]*).*$/\u0001/" }, new Options { NoNull = true });
 
             AssertRegexes(
                 "/^(?:\\/\\^root:\\/\\{s\\/(?=.)\\^[^:][^/]*?:[^:][^/]*?:\\([^:]\\)[^/]*?\\.[^/]*?\\$\\/1\\/)$/",
