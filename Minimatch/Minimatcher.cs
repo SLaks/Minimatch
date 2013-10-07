@@ -391,7 +391,7 @@ namespace Minimatch
             // x{y,z} -> ["xy", "xz"]
             // console.error("set", set)
             // console.error("suffix", pattern.substr(i))
-            return BraceExpand(pattern.Substring(i), options).SelectMany(s1 => set.Select(s2 => s1 + s2));
+            return BraceExpand(pattern.Substring(i), options).SelectMany(s1 => set.Select(s2 => s2 + s1));
         }
 
         private class PatternListEntry
@@ -450,7 +450,7 @@ namespace Minimatch
             public override bool Match(string input, Options options) { throw new NotSupportedException(); }
         }
 
-        static readonly Regex slashThingy = new Regex(@"((?:\\{2})*)(\\?)\|");
+        static readonly Regex escapeCheck = new Regex(@"((?:\\{2})*)(\\?)\|");
         // parse a component of the expanded set.
         // At this point, no pattern may contain "/" in it
         // so we're going to return a 2d array, where each entry is the full
@@ -700,9 +700,9 @@ namespace Minimatch
                 var pl = patternListStack.Pop();
                 var tail = re.Substring(pl.ReStart + 3);
                 // maybe some even number of \, then maybe 1 \, followed by a |
-                tail = slashThingy.Replace(tail, m =>
+                tail = escapeCheck.Replace(tail, m =>
                 {
-                    string escape = m.Groups[1].Value;
+                    string escape = m.Groups[2].Value;
                     // the | isn't already escaped, so escape it.
                     if (String.IsNullOrEmpty(escape)) escape = "\\";
 
@@ -712,7 +712,7 @@ namespace Minimatch
                     // it exactly after itself.  That's why this trick works.
                     //
                     // I am sorry that you have to see this.
-                    return m.Groups[0].Value + m.Groups[0].Value + escape + "|";
+                    return m.Groups[1].Value + m.Groups[1].Value + escape + "|";
                 });
 
                 // console.error("tail=%j\n   %s", tail, tail)
@@ -867,7 +867,7 @@ namespace Minimatch
 
             if (options.MatchBase && pattern.Count == 1)
             {
-                file = new[] { file.Last() };
+                file = new[] { file.Last(s => !String.IsNullOrEmpty(s)) };
             }
 
             //if (options.debug) {
