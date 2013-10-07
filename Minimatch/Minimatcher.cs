@@ -655,7 +655,7 @@ namespace Minimatch
                 // any characters that were passed through as-is
                 string cs = pattern.Substring(classStart + 1);
                 var sp = this.Parse(cs, true);
-                re = re.Substring(0, reClassStart) + "\\[" + sp.Item1;
+                re = re.Substring(0, reClassStart) + "\\[" + sp.Item1.Source;
                 hasMagic = hasMagic || sp.Item2;
             }
 
