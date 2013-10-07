@@ -4,10 +4,33 @@ A minimal matching utility.
 This is a port of Node.js' [minimatch](https://github.com/isaacs/minimatch).
 
 ##Usage
+Just parse the pattern into a `Minimatch` instance, then call the `IsMatch` function to check whether an input matches it.  You can also use the `Filter()` convenience method to filter a list of paths and find those that match the pattern.
 
 ```csharp
-var m = new Minimatch
+var mm = new Minimatch(searchPattern);
+
+if (mm.IsMatch(somePath)) {
+	// The path matches!  Do some cool stuff!
+}
+
+var matchingPaths = mm.Filter(allPaths);
 ```
+
+Minimatch also has `static` versions of these methods that take a pattern a string.  However, these methods will re-parse the pattern on every invocation, making them slower.
+
+##On Windows-style paths
+Minimatch's syntax was designed for Linux-style paths (with forward slashes only).  In particular, it uses the backslash as an escape character, so it cannot simply accept Windows-style paths.
+My C# version preserves this behavior.
+
+To suppress this, and allow both backslashes and forward slashes as path separators (in patterns or input), set the `AllowWindowsPaths` option:
+
+```cs
+var mm = new Minimatch(searchPattern, new Options { AllowWindowsPaths = true });
+```
+
+Passing this option will disable escape characters entirely.
+
+-----
 
 Quoting the original documentation:
 
@@ -33,7 +56,7 @@ Quoting the original documentation:
  > implementations, and are intentional.
  > 
  > If the pattern starts with a `!` character, then it is negated.  Set the
- > `nonegate` flag to suppress this behavior, and treat leading `!`
+ > `NoNegate` flag to suppress this behavior, and treat leading `!`
  > characters normally.  This is perhaps relevant if you wish to start the
  > pattern with a negative extglob pattern like `!(a|B)`.  Multiple `!`
  > characters at the start of a pattern will negate the pattern multiple
@@ -41,19 +64,19 @@ Quoting the original documentation:
  > 
  > If a pattern starts with `#`, then it is treated as a comment, and
  > will not match anything.  Use `\#` to match a literal `#` at the
- > start of a line, or set the `nocomment` flag to suppress this behavior.
+ > start of a line, or set the `NoComment` flag to suppress this behavior.
  > 
  > The double-star character `**` is supported by default, unless the
- > `noglobstar` flag is set.  This is supported in the manner of bsdglob
+ > `NoGlobStar` flag is set.  This is supported in the manner of bsdglob
  > and bash 4.1, where `**` only has special significance if it is the only
  > thing in a path part.  That is, `a/**/b` will match `a/x/y/b`, but
  > `a/**b` will not.  **Note that this is different from the way that `**` is
  > handled by ruby's `Dir` class.**
  > 
- > If an escaped pattern has no matches, and the `nonull` flag is set,
+ > If an escaped pattern has no matches, and the `NoNull` flag is set,
  > then minimatch.match returns the pattern as-provided, rather than
  > interpreting the character escapes.  For example,
- > `minimatch.match([], "\\*a\\?")` will return `"\\*a\\?"` rather than
+ > `Minimatch.Filter(new string[0], "\\*a\\?", new Options { NoNull = true })` will return `"\\*a\\?"` rather than
  > `"*a?"`.  This is akin to setting the `nullglob` option in bash, except
  > that it does not resolve escaped pattern characters.
  > 
