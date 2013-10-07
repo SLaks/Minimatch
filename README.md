@@ -2,7 +2,14 @@
 A minimal matching utility.
 
 This is a port of Node.js' [minimatch](https://github.com/isaacs/minimatch).
-From its documentation:
+
+##Usage
+
+```csharp
+var m = new Minimatch
+```
+
+Quoting the original documentation:
 
  > ## Features
  > 

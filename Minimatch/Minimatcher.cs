@@ -36,6 +36,14 @@ namespace Minimatch
 
         ///<summary>If true, backslahes in patterns and paths will be treated as forward slashes.  This disables escape characters.</summary>
         public bool AllowWindowsPaths { get; set; }
+
+        // Aliases:
+        ///<summary>Ignores case differences when matching.  This is the same as NoCase.</summary>
+        public bool IgnoreCase
+        {
+            get { return NoCase; }
+            set { NoCase = value; }
+        }
     }
 
 
@@ -73,7 +81,7 @@ namespace Minimatch
 
         ///<summary>Filters a list of inputs against a single pattern.</summary>
         ///<remarks>This function reparses this input on each invocation.  For performance, avoid this function and reuse a Minimatcher instance instead.</remarks>
-        public static IEnumerable<string> Filter(IEnumerable<string> list, string pattern, Options options)
+        public static IEnumerable<string> Filter(IEnumerable<string> list, string pattern, Options options = null)
         {
             var mm = new Minimatcher(pattern, options);
             list = list.Where(mm.IsMatch);
@@ -83,7 +91,7 @@ namespace Minimatch
         }
 
         ///<summary>Compiles a pattern into a single regular expression.</summary>
-        public static Regex CreateRegex(string pattern, Options options)
+        public static Regex CreateRegex(string pattern, Options options = null)
         {
             return new Minimatcher(pattern, options).MakeRegex();
         }
@@ -210,7 +218,8 @@ namespace Minimatch
         // Invalid sets are not expanded.
         // a{2..}b -> a{2..}b
         // a{b}c -> a{b}c
-        static IEnumerable<string> BraceExpand(string pattern, Options options)
+        ///<summary>Expands all brace ranges in a pattern, returning a sequence containing every possible combination.</summary>
+        public static IEnumerable<string> BraceExpand(string pattern, Options options)
         {
             if (options.NoBrace || !hasBraces.IsMatch(pattern))
             {
