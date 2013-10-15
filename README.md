@@ -10,10 +10,10 @@ First, install [from NuGet](https://www.nuget.org/packages/Minimatch/):
 PM> Install-Package Minimatch
 ```
 
-Just parse the pattern into a `Minimatch` instance, then call the `IsMatch` function to check whether an input matches it.  You can also use the `Filter()` convenience method to filter a list of paths and find those that match the pattern.
+Just parse the pattern into a `Minimatcher` instance, then call the `IsMatch` function to check whether an input matches it.  You can also use the `Filter()` convenience method to filter a list of paths and find those that match the pattern.
 
 ```csharp
-var mm = new Minimatch(searchPattern);
+var mm = new Minimatcher(searchPattern);
 
 if (mm.IsMatch(somePath)) {
 	// The path matches!  Do some cool stuff!
@@ -31,7 +31,7 @@ My C# version preserves this behavior.
 To suppress this, and allow both backslashes and forward slashes as path separators (in patterns or input), set the `AllowWindowsPaths` option:
 
 ```cs
-var mm = new Minimatch(searchPattern, new Options { AllowWindowsPaths = true });
+var mm = new Minimatcher(searchPattern, new Options { AllowWindowsPaths = true });
 ```
 
 Passing this option will disable escape characters entirely.
@@ -82,7 +82,7 @@ Quoting the original documentation:
  > If an escaped pattern has no matches, and the `NoNull` flag is set,
  > then minimatch.match returns the pattern as-provided, rather than
  > interpreting the character escapes.  For example,
- > `Minimatch.Filter(new string[0], "\\*a\\?", new Options { NoNull = true })` will return `"\\*a\\?"` rather than
+ > `Minimatcher.Filter(new string[0], "\\*a\\?", new Options { NoNull = true })` will return `"\\*a\\?"` rather than
  > `"*a?"`.  This is akin to setting the `nullglob` option in bash, except
  > that it does not resolve escaped pattern characters.
  > 
