@@ -142,6 +142,7 @@ csx
 AppPackages/
 
 # Others
+*.ide
 sql/
 *.Cache
 ClientBin/
