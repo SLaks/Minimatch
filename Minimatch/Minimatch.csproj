@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="Minimatch.Source.nuspec" />
     <None Include="Minimatch.nuspec" />
     <None Include="Minimatch.snk" />
   </ItemGroup>
@@ -50,12 +51,30 @@
     <Compile Include="Minimatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <UsingTask TaskName="ReplaceFileText" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <InputFilename ParameterType="System.String" Required="true" />
+      <OutputFilename ParameterType="System.String" Required="true" />
+      <MatchExpression ParameterType="System.String" Required="true" />
+      <ReplacementText ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+            var inputText = File.ReadAllText(InputFilename);
+        
+            var outputText = Regex.Replace(inputText, MatchExpression, ReplacementText);
+        
+            File.WriteAllText(OutputFilename, outputText);
+          ]]></Code>
+    </Task>
+  </UsingTask>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
   <Target Name="AfterBuild">
+    <ReplaceFileText InputFilename="Minimatcher.cs" OutputFilename="$(OutputPath)Minimatcher.cs.pp" MatchExpression="namespace Minimatch" ReplacementText="namespace $rootnamespace$" />
+    <ReplaceFileText InputFilename="$(OutputPath)Minimatcher.cs.pp" OutputFilename="$(OutputPath)Minimatcher.cs.pp" MatchExpression="public" ReplacementText="internal" />
   </Target>
-  -->
 </Project>
