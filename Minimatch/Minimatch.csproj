@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="Minimatch.Source.nuspec" />
     <None Include="Minimatch.nuspec" />
     <None Include="Minimatch.snk" />
   </ItemGroup>
