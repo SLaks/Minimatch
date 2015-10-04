@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20930.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimatch", "Minimatch\Minimatch.csproj", "{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DECF29EB-8A8D-4CAA-832B-21AF71AF805F}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -12,20 +10,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimatch.Tests", "Minimatch.Tests\Minimatch.Tests.csproj", "{F885C6AE-8AD7-4942-B429-720783C0B65E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Minimatch.Shared", "Minimatch.Shared\Minimatch.Shared.shproj", "{C8008B00-9BB0-47BD-82BE-7A12526425C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimatch.Portable.Net40", "Minimatch.Portable.Net40\Minimatch.Portable.Net40.csproj", "{1E2EE7C3-2215-48E1-BE95-F2A404FB42C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimatch.Portable.Net45", "Minimatch.Portable.Net45\Minimatch.Portable.Net45.csproj", "{702CA13A-C8DF-4859-8909-FB4FE598865A}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Minimatch.Pkg", "Minimatch.Pkg\Minimatch.Pkg.nuproj", "{D99CDC4A-F8DE-451B-8CE7-1A3B2BD25045}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Minimatch.Shared\Minimatch.Shared.projitems*{1e2ee7c3-2215-48e1-be95-f2a404fb42c4}*SharedItemsImports = 4
+		Minimatch.Shared\Minimatch.Shared.projitems*{c8008b00-9bb0-47bd-82be-7a12526425c1}*SharedItemsImports = 13
+		Minimatch.Shared\Minimatch.Shared.projitems*{702ca13a-c8df-4859-8909-fb4fe598865a}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F885C6AE-8AD7-4942-B429-720783C0B65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F885C6AE-8AD7-4942-B429-720783C0B65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F885C6AE-8AD7-4942-B429-720783C0B65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F885C6AE-8AD7-4942-B429-720783C0B65E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2EE7C3-2215-48E1-BE95-F2A404FB42C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2EE7C3-2215-48E1-BE95-F2A404FB42C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2EE7C3-2215-48E1-BE95-F2A404FB42C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2EE7C3-2215-48E1-BE95-F2A404FB42C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702CA13A-C8DF-4859-8909-FB4FE598865A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702CA13A-C8DF-4859-8909-FB4FE598865A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702CA13A-C8DF-4859-8909-FB4FE598865A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702CA13A-C8DF-4859-8909-FB4FE598865A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D99CDC4A-F8DE-451B-8CE7-1A3B2BD25045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D99CDC4A-F8DE-451B-8CE7-1A3B2BD25045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D99CDC4A-F8DE-451B-8CE7-1A3B2BD25045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D99CDC4A-F8DE-451B-8CE7-1A3B2BD25045}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

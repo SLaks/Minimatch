@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Minimatch\Minimatch.csproj">
-      <Project>{2CA3D199-F40B-44E7-8FA3-D0EB1BA28CE7}</Project>
-      <Name>Minimatch</Name>
+    <ProjectReference Include="..\Minimatch.Portable.Net40\Minimatch.Portable.Net40.csproj">
+      <Project>{1e2ee7c3-2215-48e1-be95-f2a404fb42c4}</Project>
+      <Name>Minimatch.Portable.Net40</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
