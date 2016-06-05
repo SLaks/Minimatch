@@ -1,0 +1,25 @@
+﻿{
+	"title": "Minimatch",
+	"version": "2.0.0",
+	"description": "A C# glob matcher",
+	"authors": [ "SLaks" ],
+	"packOptions": {
+		"releaseNotes": "Repackaged with .Net Platform Standard",
+		"licenseUrl": "http://opensource.org/licenses/MIT",
+		"tags": [ "strings", "glob", "search", "files", "wildcards", "patterns" ],
+		"repository": {
+			"url": "https://github.com/SLaks/Minimatch/",
+			"type": "git"
+		}
+	},
+	"buildOptions": {
+		"keyFile": "Minimatch.snk",
+		"xmlDoc": true
+	},
+	"dependencies": {
+		"NETStandard.Library": "1.0.0-rc2-23910"
+	},
+	"frameworks": {
+		"netstandard1.0": { }
+	}
+}
