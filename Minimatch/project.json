@@ -16,10 +16,19 @@
 		"keyFile": "Minimatch.snk",
 		"xmlDoc": true
 	},
-	"dependencies": {
-		"NETStandard.Library": "1.0.0-rc2-23910"
-	},
 	"frameworks": {
-		"netstandard1.0": { }
+		"netstandard1.0": { 
+			"dependencies": {
+				"NETStandard.Library": "1.0.0-rc2-23910"
+			},
+		},
+		"netcoreapp1.0": {
+			"imports": [
+				"dotnet5.6"
+			],
+			"dependencies": {
+				"NETStandard.Library": "1.6.0"
+			}
+		}
 	}
 }
