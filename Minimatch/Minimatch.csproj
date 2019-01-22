@@ -5,7 +5,7 @@
     <AssemblyTitle>Minimatch</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>SLaks</Authors>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Minimatch</AssemblyName>
     <AssemblyOriginatorKeyFile>Minimatch.snk</AssemblyOriginatorKeyFile>
@@ -14,7 +14,7 @@
     <PackageId>Minimatch</PackageId>
     <PackageTags>strings;glob;search;files;wildcards;patterns</PackageTags>
     <PackageReleaseNotes>Repackaged with .Net Platform Standard</PackageReleaseNotes>
-    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/SLaks/Minimatch/</RepositoryUrl>
   </PropertyGroup>

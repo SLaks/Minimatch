@@ -10,7 +10,7 @@ jobs:
       vmImage: 'Ubuntu-16.04'
     steps:
     - script: |
-        npx -q git2semver
+        npx -q git2semver@0.7.1
       displayName: Generate version number
     - script: |
         dotnet restore
@@ -19,6 +19,7 @@ jobs:
         dotnet pack --configuration $(configuration) -p:VersionPrefix=$GIT2SEMVER_MAJORMINORPATCH
       displayName: Build, test, and package    
     - task: PublishPipelineArtifact@0
+      displayName: Publish build outputs
       inputs:
         artifactName: drop
         targetPath: Minimatch/bin/$(configuration)
