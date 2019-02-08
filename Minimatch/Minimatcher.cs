@@ -960,7 +960,7 @@ namespace Minimatch
                             // can't swallow "." or ".." ever.
                             // can only swallow ".foo" when explicitly asked.
                             if (swallowee == "." || swallowee == ".." ||
-                                (!options.Dot && swallowee[0] == '.'))
+                                (!options.Dot && !string.IsNullOrEmpty(swallowee) && swallowee[0] == '.'))
                             {
                                 //if (options.debug)
                                 //  console.error("dot detected!", file, fr, pattern, pr)
